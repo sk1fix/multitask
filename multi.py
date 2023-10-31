@@ -2,7 +2,7 @@ from multiprocessing import Pool
 
 def sum_str(x,a):
     s=0
-    if i <= len(a):
+    if x <= len(a):
         s=sum(a[x])
     return s
 
@@ -17,14 +17,12 @@ if "__main__"==__name__:
             a=int(input())
             elem.append(a)
         mat.append(elem)
-    index=list(range(columns))
+    index=[]
+    for i in range(rows):
+        index += ((i, mat),)
     print(index)
     for i in range(columns):
         print(*mat[i])
-    matx=[]
-    for i in range(rows):
-        
-        matx.append(mat)
-    #Process(target=sum_str,args=(index,mat,summ))
-    res = list(Pool(4).map(sum_str, index, matx))
-    print(res)
+    with Pool(8) as f:
+        res = f.starmap(sum_str, index)
+    print(sum(res))
