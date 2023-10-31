@@ -2,8 +2,8 @@ from multiprocessing import Pool
 
 def sum_str(x,a):
     s=0
-    if x <= len(a):
-        s=sum(a[x])
+    for i in range(len(a[x])):
+        s+=a[x][i]
     return s
 
 if "__main__"==__name__:
@@ -18,10 +18,8 @@ if "__main__"==__name__:
             elem.append(a)
         mat.append(elem)
     index=[]
-    for i in range(rows):
-        index += ((i, mat),)
-    print(index)
     for i in range(columns):
+        index += ((i, mat),)
         print(*mat[i])
     with Pool(8) as f:
         res = f.starmap(sum_str, index)
